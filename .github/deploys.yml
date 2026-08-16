@@ -1,0 +1,33 @@
+name: Déploiement automatique sur OVH
+
+# 1. Quand est-ce que l'action se déclenche ?
+on:
+  push:
+    branches:
+      - main  # Remplace par "master" si ta branche principale s'appelle master
+
+# 2. Que doit faire le robot ?
+jobs:
+  web-deploy:
+    name: Déploiement FTP
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Étape A : Récupérer le dernier code que tu viens de push
+      - name: Récupération du code
+        uses: actions/checkout@v4
+      
+      # Étape B : Se connecter à OVH et envoyer les fichiers
+      - name: Synchronisation FTP vers OVH
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Très important : on dit au robot de mettre les fichiers dans le dossier www d'OVH
+          server-dir: /www/
+          # Optionnel : exclure certains fichiers inutiles sur le serveur
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
