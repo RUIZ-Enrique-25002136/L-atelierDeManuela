@@ -1,0 +1,7 @@
+# Autoriser tous les robots d'indexation
+User-agent: *
+Allow: /
+
+# Indiquer l'emplacement de la carte du site
+# Remplacer "votre-nom-de-domaine.fr" par le vrai domaine
+Sitemap: https://www.votre-nom-de-domaine.fr/sitemap.xml
